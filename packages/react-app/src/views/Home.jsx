@@ -15,6 +15,7 @@ function Home({ yourLocalBalance, readContracts,address }) {
   // you can also use hooks locally in your component of choice
   // in this case, let's keep track of 'purpose' variable from our contract
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
+  const [imgs, setImgs] = useState([])
   
   useEffect(() => {
     const url = `https://api.covalenthq.com/v1/42/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=false&key=ckey_1d7288b1bd29481ba9c8415d038`
@@ -34,6 +35,17 @@ function Home({ yourLocalBalance, readContracts,address }) {
             console.log(nft.token_id)
             console.log(nft.token_balance)
             console.log(nft.token_url);
+            axios.get(nft.token_url)
+            .then(res => {
+              setImgs([...imgs, {
+                token_id: nft.token_id,
+                token_balance: nft.token_balance,
+                name: res.data.name,
+                image_url: res.data.image,
+                contract_address: item.contract_address
+              }])             
+            })
+            .catch(err => console.log(err))
           })
         }
       })
@@ -45,85 +57,91 @@ function Home({ yourLocalBalance, readContracts,address }) {
   
   return (
     <div>
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>📝</span>
-        This Is Your App Home. You can start editing it in{" "}
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          packages/react-app/src/views/Home.jsx
-        </span>
-      </div>
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>✏️</span>
-        Edit your smart contract {" "}
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          YourContract.sol
-        </span>{" "}in{" "}
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          packages/hardhat/contracts
-        </span>
-      </div>
-      {!purpose?<div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>👷‍♀️</span>
-        You haven't deployed your contract yet, run
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          yarn chain
-        </span> and <span
-            className="highlight"
-            style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-          >
-            yarn deploy
-          </span> to deploy your first contract!
-      </div>:<div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🤓</span>
-        The "purpose" variable from your contract is{" "}
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          {purpose}
-        </span>
-      </div>}
-
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🤖</span>
-        An example prop of your balance{" "}
-        <span style={{ fontWeight: "bold", color: "green" }}>({ethers.utils.formatEther(yourLocalBalance)})</span> was
-        passed into the
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          Home.jsx
-        </span>{" "}
-        component from
-        <span
-          className="highlight"
-          style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
-        >
-          App.jsx
-        </span>
-      </div>
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>💭</span>
-        Check out the <Link to="/hints">"Hints"</Link> tab for more tips.
-      </div>
-      <div style={{ margin: 32 }}>
-        <span style={{ marginRight: 8 }}>🛠</span>
-        Tinker with your smart contract using the <Link to="/debug">"Debug Contract"</Link> tab.
-      </div>
+      {imgs.map(img => (<div key={img.token_id}>
+        <img src={img.image_url} alt={img.name} srcset="" />
+        <span>{img.name}</span>
+      </div>))}
     </div>
+    // <div>
+    //   <div style={{ margin: 32 }}>
+    //     <span style={{ marginRight: 8 }}>📝</span>
+    //     This Is Your App Home. You can start editing it in{" "}
+    //     <span
+    //       className="highlight"
+    //       style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
+    //     >
+    //       packages/react-app/src/views/Home.jsx
+    //     </span>
+    //   </div>
+    //   <div style={{ margin: 32 }}>
+    //     <span style={{ marginRight: 8 }}>✏️</span>
+    //     Edit your smart contract {" "}
+    //     <span
+    //       className="highlight"
+    //       style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
+    //     >
+    //       YourContract.sol
+    //     </span>{" "}in{" "}
+    //     <span
+    //       className="highlight"
+    //       style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
+    //     >
+    //       packages/hardhat/contracts
+    //     </span>
+    //   </div>
+    //   {!purpose?<div style={{ margin: 32 }}>
+    //     <span style={{ marginRight: 8 }}>👷‍♀️</span>
+    //     You haven't deployed your contract yet, run
+    //     <span
+    //       className="highlight"
+    //       style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
+    //     >
+    //       yarn chain
+    //     </span> and <span
+    //         className="highlight"
+    //         style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
+    //       >
+    //         yarn deploy
+    //       </span> to deploy your first contract!
+    //   </div>:<div style={{ margin: 32 }}>
+    //     <span style={{ marginRight: 8 }}>🤓</span>
+    //     The "purpose" variable from your contract is{" "}
+    //     <span
+    //       className="highlight"
+    //       style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
+    //     >
+    //       {purpose}
+    //     </span>
+    //   </div>}
+
+    //   <div style={{ margin: 32 }}>
+    //     <span style={{ marginRight: 8 }}>🤖</span>
+    //     An example prop of your balance{" "}
+    //     <span style={{ fontWeight: "bold", color: "green" }}>({ethers.utils.formatEther(yourLocalBalance)})</span> was
+    //     passed into the
+    //     <span
+    //       className="highlight"
+    //       style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
+    //     >
+    //       Home.jsx
+    //     </span>{" "}
+    //     component from
+    //     <span
+    //       className="highlight"
+    //       style={{ marginLeft: 4, /* backgroundColor: "#f9f9f9", */ padding: 4, borderRadius: 4, fontWeight: "bolder" }}
+    //     >
+    //       App.jsx
+    //     </span>
+    //   </div>
+    //   <div style={{ margin: 32 }}>
+    //     <span style={{ marginRight: 8 }}>💭</span>
+    //     Check out the <Link to="/hints">"Hints"</Link> tab for more tips.
+    //   </div>
+    //   <div style={{ margin: 32 }}>
+    //     <span style={{ marginRight: 8 }}>🛠</span>
+    //     Tinker with your smart contract using the <Link to="/debug">"Debug Contract"</Link> tab.
+    //   </div>
+    // </div>
   );
 }
 
