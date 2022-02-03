@@ -1,4 +1,4 @@
-import { Button, Col, Menu, Row } from "antd";
+import { Button, Card, Col, Menu, Row,Input } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -23,6 +23,7 @@ import {
   NetworkDisplay,
   FaucetHint,
   NetworkSwitch,
+  AddressInput
 } from "./components";
 import { NETWORKS, ALCHEMY_KEY } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -31,6 +32,7 @@ import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { Home, ExampleUI, Hints, Subgraph } from "./views";
 import { useStaticJsonRPC } from "./hooks";
+import { local } from "web3modal";
 
 const { ethers } = require("ethers");
 /*
@@ -243,7 +245,22 @@ function App(props) {
   }, [loadWeb3Modal]);
 
   const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
-
+/* const for Listing price  */
+  const [Listingprice,setListingPrice] = useState();
+  const [NFTtokenId,setNFTtokenId] = useState();
+  const [NoOfTokens,setNoOfTokens]= useState();
+  const [NoOfNFTs, setNoOfNFTs] = useState();
+  const [Discount,setDiscount] = useState();
+  const [NFTcontractAddress,setNFTcontractAddress]= useState();
+//
+/* const for buying NFT*/
+  const [BuyNFTcontractAddress,setBuyNFTcontractAddress]= useState();
+  const [BuyNFTtokenId,setBuyNFTtokenId]= useState();
+  const [BuyNoOfNFTs,setBuyNoOfNFTs]= useState();
+  //
+  const EthCostToPurchaseNFT = Listingprice * BuyNoOfNFTs;
+  
+  
   return (
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
@@ -280,7 +297,7 @@ function App(props) {
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts}/>
+          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />
           {/* <Contract
             title= {"Mint NFTs"}
             name="YourCollectible"
@@ -292,6 +309,65 @@ function App(props) {
             contractConfig= {contractConfig}
             blockExplorer={blockExplorer}
           />           */}
+
+          <div>
+            <Button
+              onClick= {async () =>{
+                await tx(writeContracts.YourCollectible.setApprovalForAll(readContracts.FooFa.address,true));
+              }}
+            >
+              Approve
+            </Button>
+          </div>
+
+          <Card title ="List Your NFT">
+            <div style = {{padding: 8}}>
+              <Input
+              style ={{textAlign: "center"}}
+              placeholder = {"Price at which you want to sell NFT"}
+              value= {Listingprice}
+              onChange={ e=> {
+                setListingPrice(e.target.value);
+              }}/>
+            </div>
+            <div style = {{padding: 8}}>
+              <Input
+              style ={{textAlign: "center"}}
+              placeholder = {"No of ERC1155 tokens you want in return"}
+              value= {NoOfTokens}
+              onChange={ e=> {
+                setNoOfTokens(e.target.value);
+              }}/>
+            </div>
+            <div style = {{padding: 8}}>
+              <Input
+              style ={{textAlign: "center"}}
+              placeholder = {"No of NFTs you want to List"}
+              value= {NoOfNFTs}
+              onChange={ e=> {
+                setNoOfNFTs(e.target.value);
+              }}/>
+            </div>
+            <div style = {{padding: 8}}>
+              <Input
+              style ={{textAlign: "center"}}
+              placeholder = {"Discount for liquidity providers"}
+              value= {Discount}
+              onChange={ e=> {
+                setDiscount(e.target.value);
+              }}/>
+            </div>
+            <div style ={{padding: 8}}>
+              <Button
+              onClick={async () =>{
+                await tx(writeContracts.FooFa.addListing(Listingprice && ethers.utils.parseEther(Listingprice),NFTtokenId,NFTcontractAddress,NoOfTokens,NoOfNFTs,Discount && ethers.utils.parseEther(Discount)));
+              }}
+              >
+                List!
+              </Button>
+            </div>
+          </Card>
+
         </Route>
         <Route exact path="/debug">
           {/*
@@ -321,12 +397,31 @@ function App(props) {
 
         </Route>
         <Route path="/hints">
-          <Hints
-            address={address}
-            yourLocalBalance={yourLocalBalance}
-            mainnetProvider={mainnetProvider}
-            price={price}
-          />
+          <Hints address = {address} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />
+            
+            <Card title = "Buy NFT">
+            <div style = {{padding: 8}}>
+              <Input
+              style={{textAlign: "center"}}
+              placeholder={"amount of NFT to buy"}
+              value = {BuyNoOfNFTs}
+              onChange={e => {
+                setBuyNoOfNFTs(e.target.value);
+              }}
+            />
+            </div>
+            <div style = {{padding:8}}>
+              <Button
+              onClick={async() =>{
+                await tx(writeContracts.FooFa.NFTbuy("0xBB8C73e65E9fEca2BC914d33e4C5467baBc72399",1,BuyNoOfNFTs,{value: EthCostToPurchaseNFT}));
+              }}
+              
+              >
+                Buy NFT!
+              </Button>
+            </div>
+            </Card>
+          
         </Route>
         <Route path="/exampleui">
           <ExampleUI

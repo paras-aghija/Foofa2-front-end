@@ -11,6 +11,7 @@ import {
   useOnBlock,
   useUserProviderAndSigner,
 } from "eth-hooks";
+import LocaleProvider from "antd/lib/locale-provider";
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
@@ -18,10 +19,13 @@ import {
  * @param {*} readContracts contracts from current chain already pre-loaded using ethers contract module. More here https://docs.ethers.io/v5/api/contract/contract/
  * @returns react component
  */
-function Home({ yourLocalBalance, readContracts,address ,writeContracts}) {
+function Home({ yourLocalBalance, readContracts,address ,writeContracts,localProvider}) {
   // you can also use hooks locally in your component of choice
   // in this case, let's keep track of 'purpose' variable from our contract
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
+  
+  
+
   
 
 
