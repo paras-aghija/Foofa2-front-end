@@ -30,42 +30,63 @@ function Home({ yourLocalBalance, readContracts,address ,writeContracts}) {
   useEffect(() => {
     const url = `https://api.covalenthq.com/v1/42/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=false&key=ckey_1d7288b1bd29481ba9c8415d038`
     const fun = async () => {
-      let data = null;
+      let data = [];
+      let images = []
       try {
-         data = await axios.get(url);
-        // console.log(data);  
+        data = await axios.get(url);
+        for (const item of data?.data?.data?.items){
+          console.log(item)
+          if(item?.supports_erc?.includes('erc1155') && item?.nft_data!== null){
+            for(const nft of item.nft_data){
+              const img_data = await axios.get(nft.token_url)
+              console.log(img_data)
+              images.push({
+                token_id: nft.token_id,
+                token_balance: nft.token_balance,
+                name: img_data.data.name,
+                image_url: img_data.data.image,
+                contract_address: item.contract_address
+              }) 
+            }
+          }
+        }
       } catch (error) {
         console.log(error);
       }
+      setImgs(images)
 
-      console.log('DEBUG');
-      data?.data?.data?.items?.forEach(item => {
-        if(item?.supports_erc?.includes('erc1155') && item?.nft_data!== null){
-          item.nft_data.forEach(nft => {
-            console.log(nft.token_id)
-            console.log(nft.token_balance)
-            console.log(nft.token_url);
-            axios.get(nft.token_url)
-            .then(res => {
-              setImgs([...imgs, {
-                token_id: nft.token_id,
-                token_balance: nft.token_balance,
-                name: res.data.name,
-                image_url: res.data.image,
-                contract_address: item.contract_address
-              }])             
-            })
-            .catch(err => console.log(err))
-          })
-        }
-      })
+      
+      
+
+
+      // console.log('DEBUG')
+      // data?.data?.data?.items?.forEach(item => {
+      //   if(item?.supports_erc?.includes('erc1155') && item?.nft_data!== null){
+      //     item.nft_data.forEach(nft => {
+      //       console.log(nft.token_id)
+      //       console.log(nft.token_balance)
+      //       console.log(nft.token_url);
+      //       axios.get(nft.token_url)
+      //       .then(res => {
+      //         setImgs([...imgs, {
+      //           token_id: nft.token_id,
+      //           token_balance: nft.token_balance,
+      //           name: res.data.name,
+      //           image_url: res.data.image,
+      //           contract_address: item.contract_address
+      //         }])             
+      //       })
+      //       .catch(err => console.log(err))
+      //     })
+      //   }
+      // })
     }
     fun();
 
   }, [address]);
 
-  const NFTAddress = item.contract_address;
-  console.log(NFTAddress);
+  // const NFTAddress = item.contract_address;
+  // console.log(NFTAddress);
   
   
   return (
