@@ -4,6 +4,13 @@ import { useContractReader } from "eth-hooks";
 import { ethers } from "ethers";
 import {useState} from "react";
 import axios from 'axios'
+import {
+  useBalance,
+  useContractLoader,
+  useGasPrice,
+  useOnBlock,
+  useUserProviderAndSigner,
+} from "eth-hooks";
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
@@ -11,10 +18,13 @@ import axios from 'axios'
  * @param {*} readContracts contracts from current chain already pre-loaded using ethers contract module. More here https://docs.ethers.io/v5/api/contract/contract/
  * @returns react component
  */
-function Home({ yourLocalBalance, readContracts,address }) {
+function Home({ yourLocalBalance, readContracts,address ,writeContracts}) {
   // you can also use hooks locally in your component of choice
   // in this case, let's keep track of 'purpose' variable from our contract
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
+  
+
+
   const [imgs, setImgs] = useState([])
   
   useEffect(() => {
@@ -53,6 +63,9 @@ function Home({ yourLocalBalance, readContracts,address }) {
     fun();
 
   }, [address]);
+
+  const NFTAddress = item.contract_address;
+  console.log(NFTAddress);
   
   
   return (
