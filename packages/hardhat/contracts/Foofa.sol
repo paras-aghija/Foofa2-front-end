@@ -13,7 +13,9 @@ contract FooFa is ERC1155, ERC1155Holder {
     uint public counter=1;
     mapping(address =>mapping(uint=> Listing)) public ListingDetails;
     mapping(address=> mapping(uint=> uint )) public NFTPurchasePrice;
-    mapping(uint => address) internal Tokenbuyers;
+
+
+    
     
     
 
@@ -25,6 +27,7 @@ contract FooFa is ERC1155, ERC1155Holder {
         uint discount;
         uint amount;
         uint noOftokens;
+
 
     }
 
@@ -46,8 +49,9 @@ contract FooFa is ERC1155, ERC1155Holder {
         require(token.balanceOf(address(this),tokenId)>=1);
         require(msg.value >= item.price * amountOfNFT,"Not enough ether sent");
         token.safeTransferFrom(address(this),msg.sender,tokenId,amountOfNFT,"");
-
         NFTPurchasePrice[contractAddress][tokenId]= msg.value;
+       
+        
 
     }
     function addListing(uint price, uint tokenId, address contractAddress,uint8 NoOfTokens,uint amount,uint discount) public payable {
@@ -56,6 +60,8 @@ contract FooFa is ERC1155, ERC1155Holder {
         MintafterNFtreceieved(msg.sender,counter,NoOfTokens,"");
         ListingDetails[contractAddress][tokenId]= Listing(price,msg.sender,counter,discount,amount,NoOfTokens);
         counter++;
+
+
 
     }
 
@@ -75,7 +81,6 @@ contract FooFa is ERC1155, ERC1155Holder {
         Listing memory item = ListingDetails[NFTcontractAddress][tokenId];
         uint PricePerToken = ((item.price * item.amount) - (item.discount))/item.noOftokens;
         require(msg.value >= PricePerToken * _amountOfTokens,"Not enough ether sent");
-        Tokenbuyers[_counter]= msg.sender;
         _safeTransferFrom(address(this),msg.sender,_counter,_amountOfTokens,"");
         uint AfterFEE= (msg.value * 995)/1000;
         (bool success,) = item.seller.call{value: AfterFEE}("");

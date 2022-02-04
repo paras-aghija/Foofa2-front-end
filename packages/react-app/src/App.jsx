@@ -56,7 +56,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const initialNetwork = NETWORKS.kovan; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const initialNetwork = NETWORKS.mumbai; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -445,8 +445,20 @@ function App(props) {
               <Input
                 style = {{textAlign: "center"}}
                 placeholder={"No of tokens you want to buy"}
-                // value= {}
+                value= {BuyNoOfTokens}
+                onChange={e=>{
+                  setBuyNoOfTokens(e.target.value);
+                }}
               />
+              <div style = {{padding: 8 }}>
+                <Button
+                onClick={async() =>{
+                  // await tx(writeContracts.FooFa.buyTokens(1,BuyNoOfTokens,contractaddress, tokenId))
+                }}
+                >
+
+                </Button>
+              </div>
             </div>
 
           </Card>
