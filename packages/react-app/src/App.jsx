@@ -448,7 +448,7 @@ function App(props) {
                 await tx(writeContracts.FooFa.NFTbuy(selectedNft.contract_address,selectedNft.token_id,BuyNoOfNFTs,{value: listingprice * BuyNoOfNFTs}));
                 
               }}
-              
+              // new commit
               >
                 Buy NFT!
               </Button>
