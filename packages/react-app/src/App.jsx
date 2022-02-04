@@ -33,6 +33,7 @@ import { Transactor, Web3ModalSetup } from "./helpers";
 import { Home, ExampleUI, Hints, Subgraph } from "./views";
 import { useStaticJsonRPC } from "./hooks";
 import { local } from "web3modal";
+import abiERC from "./ERC1155abi.json"; 
 
 const { ethers } = require("ethers");
 /*
@@ -258,8 +259,16 @@ function App(props) {
   const [BuyNFTtokenId,setBuyNFTtokenId]= useState();
   const [BuyNoOfNFTs,setBuyNoOfNFTs]= useState();
   //
-  const EthCostToPurchaseNFT = Listingprice * BuyNoOfNFTs;
+  // const EthCostToPurchaseNFT = Listingprice * BuyNoOfNFTs;
+  // console.log(Listingprice);
+  // console.log(BuyNoOfNFTs); 
+
+  /* const for buying tokens */
+  const [BuyNoOfTokens,setBuyNoOfTokens] = useState();
   
+  
+  
+
   
   return (
     <div className="App">
@@ -313,7 +322,8 @@ function App(props) {
           <div>
             <Button
               onClick= {async () =>{
-                await tx(writeContracts.YourCollectible.setApprovalForAll(readContracts.FooFa.address,true));
+                const UserNFTcontract = new ethers.Contract("0xEAbDf31A8F0BbB8600ebFa349D542Cc86eBA85C9",abiERC.abi,userSigner);
+                await tx(UserNFTcontract.setApprovalForAll(readContracts.FooFa.address,true));
               }}
             >
               Approve
@@ -360,7 +370,7 @@ function App(props) {
             <div style ={{padding: 8}}>
               <Button
               onClick={async () =>{
-                await tx(writeContracts.FooFa.addListing(Listingprice && ethers.utils.parseEther(Listingprice),NFTtokenId,NFTcontractAddress,NoOfTokens,NoOfNFTs,Discount && ethers.utils.parseEther(Discount)));
+                await tx(writeContracts.FooFa.addListing(Listingprice && ethers.utils.parseEther(Listingprice),1,"0xBB8C73e65E9fEca2BC914d33e4C5467baBc72399",NoOfTokens,NoOfNFTs,Discount && ethers.utils.parseEther(Discount)));
               }}
               >
                 List!
@@ -413,7 +423,7 @@ function App(props) {
             <div style = {{padding:8}}>
               <Button
               onClick={async() =>{
-                await tx(writeContracts.FooFa.NFTbuy("0xBB8C73e65E9fEca2BC914d33e4C5467baBc72399",1,BuyNoOfNFTs,{value: EthCostToPurchaseNFT}));
+                await tx(writeContracts.FooFa.NFTbuy("0xBB8C73e65E9fEca2BC914d33e4C5467baBc72399",1,BuyNoOfNFTs,{value: Listingprice * BuyNoOfNFTs}));
               }}
               
               >
@@ -424,18 +434,16 @@ function App(props) {
           
         </Route>
         <Route path="/exampleui">
-          <ExampleUI
-            address={address}
-            userSigner={userSigner}
-            mainnetProvider={mainnetProvider}
-            localProvider={localProvider}
-            yourLocalBalance={yourLocalBalance}
-            price={price}
-            tx={tx}
-            writeContracts={writeContracts}
-            readContracts={readContracts}
-            purpose={purpose}
-          />
+          <Card title = "Buy Tokens">
+            <div style = {{padding: 8}}>
+              <Input
+                style = {{textAlign: "center"}}
+                placeholder={"No of tokens you want to buy"}
+                value= {}
+              />
+            </div>
+
+          </Card>
         </Route>
         <Route path="/mainnetdai">
           <Contract

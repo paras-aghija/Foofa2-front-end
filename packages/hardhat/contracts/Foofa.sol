@@ -10,7 +10,7 @@ contract FooFa is ERC1155, ERC1155Holder {
 
 
     mapping(address=> uint) public balances;
-    uint internal counter=1;
+    uint public counter=1;
     mapping(address =>mapping(uint=> Listing)) public ListingDetails;
     mapping(address=> mapping(uint=> uint )) public NFTPurchasePrice;
     mapping(uint => address) internal Tokenbuyers;
