@@ -95,7 +95,7 @@ function Home({ yourLocalBalance, readContracts,address ,writeContracts,localPro
   return (
     <div>
       {imgs.map(img => (
-      <div key={img.token_id} onClick={() => setSelectedNft(img.contract_address)}>
+      <div key={img.token_id} onClick={() => setSelectedNft(img)}>
         <img src={img.image_url} alt={img.name} srcset="" />
         <span>{img.name}</span>
       </div>))}

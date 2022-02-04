@@ -274,8 +274,8 @@ function App(props) {
   
   return (
     <div className="App">
-      <h1>{selectedNft}</h1>
       {/* ✏️ Edit the header and change the title to your project name */}
+      <h1>{selectedNft?.contract_address}</h1>
       <Header />
       <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
@@ -326,7 +326,7 @@ function App(props) {
             <Button
               onClick= {async () =>{
                 if(selectedNft !== null){
-                  const UserNFTcontract = new ethers.Contract(selectedNft,abiERC.abi,userSigner);
+                  const UserNFTcontract = new ethers.Contract(selectedNft.contract_address,abiERC.abi,userSigner);
                   await tx(UserNFTcontract.setApprovalForAll(readContracts.FooFa.address,true));
                 }
               }}
@@ -375,7 +375,7 @@ function App(props) {
             <div style ={{padding: 8}}>
               <Button
               onClick={async () =>{
-                await tx(writeContracts.FooFa.addListing(Listingprice && ethers.utils.parseEther(Listingprice),1,"0xBB8C73e65E9fEca2BC914d33e4C5467baBc72399",NoOfTokens,NoOfNFTs,Discount && ethers.utils.parseEther(Discount)));
+                await tx(writeContracts.FooFa.addListing(Listingprice && ethers.utils.parseEther(Listingprice),selectedNft.token_id,selectedNft.contract_address,NoOfTokens,NoOfNFTs,Discount && ethers.utils.parseEther(Discount)));
               }}
               >
                 List!
