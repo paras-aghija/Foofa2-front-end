@@ -78,6 +78,8 @@ function App(props) {
   // reference './constants.js' for other networks
   const networkOptions = [initialNetwork.name, "mainnet", "rinkeby"];
 
+  const [imgs, setImgs] = useState([])
+  const [selectedNft, setSelectedNft] = useState(null);
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
@@ -272,6 +274,7 @@ function App(props) {
   
   return (
     <div className="App">
+      <h1>{selectedNft}</h1>
       {/* ✏️ Edit the header and change the title to your project name */}
       <Header />
       <NetworkDisplay
@@ -306,7 +309,7 @@ function App(props) {
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />
+          <Home setSelectedNft={setSelectedNft} imgs={imgs} setImgs={setImgs} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />
           {/* <Contract
             title= {"Mint NFTs"}
             name="YourCollectible"
@@ -322,8 +325,10 @@ function App(props) {
           <div>
             <Button
               onClick= {async () =>{
-                const UserNFTcontract = new ethers.Contract("0xEAbDf31A8F0BbB8600ebFa349D542Cc86eBA85C9",abiERC.abi,userSigner);
-                await tx(UserNFTcontract.setApprovalForAll(readContracts.FooFa.address,true));
+                if(selectedNft !== null){
+                  const UserNFTcontract = new ethers.Contract(selectedNft,abiERC.abi,userSigner);
+                  await tx(UserNFTcontract.setApprovalForAll(readContracts.FooFa.address,true));
+                }
               }}
             >
               Approve
@@ -439,7 +444,7 @@ function App(props) {
               <Input
                 style = {{textAlign: "center"}}
                 placeholder={"No of tokens you want to buy"}
-                value= {}
+                // value= {}
               />
             </div>
 
