@@ -309,7 +309,7 @@ function App(props) {
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home setSelectedNft={setSelectedNft} imgs={imgs} setImgs={setImgs} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />
+          <Home setSelectedNft={selectedNft} setSelectedNft={setSelectedNft} imgs={imgs} setImgs={setImgs} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />
           {/* <Contract
             title= {"Mint NFTs"}
             name="YourCollectible"
@@ -376,6 +376,7 @@ function App(props) {
               <Button
               onClick={async () =>{
                 await tx(writeContracts.FooFa.addListing(Listingprice && ethers.utils.parseEther(Listingprice),selectedNft.token_id,selectedNft.contract_address,NoOfTokens,NoOfNFTs,Discount && ethers.utils.parseEther(Discount)));
+                setSelectedNft(null)
               }}
               >
                 List!

@@ -34,9 +34,11 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
 
   // Getting a previously deployed contract
   const YourContract = await ethers.getContract("FooFa", deployer);
-  const collectible = await ethers.getContract("YourCollectible",deployer);
+  const collectible = await ethers.getContract("YourCollectible", deployer);
 
-  await collectible.transferOwnership("0x1b37B1EC6B7faaCbB9AddCCA4043824F36Fb88D8");
+  await collectible.transferOwnership(
+    "0xB8863EfF986f2c2BC176af5563CDc9C63Daa27c5"
+  );
 
   // await YourContract.transferOwnership("0x1b37B1EC6B7faaCbB9AddCCA4043824F36Fb88D8");
   /*  await YourContract.setPurpose("Hello");
