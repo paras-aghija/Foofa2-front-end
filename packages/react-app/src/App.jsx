@@ -414,7 +414,9 @@ function App(props) {
         </Route>
         <Route path="/hints">
           <Hints address = {address} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />
-          <div style = {{padding:8}}>
+          
+            <Card title = "Buy NFT">
+            <div style = {{padding:8}}>
               <Button
               onClick={() => setShowListedNfts(!showListedNfts)}
               >
@@ -423,7 +425,6 @@ function App(props) {
             </div>
           {showListedNfts && <Home setSelectedNft={selectedNft} setSelectedNft={setSelectedNft} imgs={imgs} setImgs={setImgs} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={readContracts.FooFa.address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />}
             
-            <Card title = "Buy NFT">
             <div style = {{padding: 8}}>
               <Input
               style={{textAlign: "center"}}
@@ -437,7 +438,7 @@ function App(props) {
             <div style = {{padding:8}}>
               <Button
               onClick={async() =>{
-                await tx(writeContracts.FooFa.NFTbuy("0xBB8C73e65E9fEca2BC914d33e4C5467baBc72399",1,BuyNoOfNFTs,{value: Listingprice * BuyNoOfNFTs}));
+                await tx(writeContracts.FooFa.NFTbuy(selectedNft.contract_address,selectedNft.token_id,BuyNoOfNFTs,{value: Listingprice * BuyNoOfNFTs}));
               }}
               
               >
@@ -449,6 +450,15 @@ function App(props) {
         </Route>
         <Route path="/exampleui">
           <Card title = "Buy Tokens">
+          <div style = {{padding:8}}>
+              <Button
+              onClick={() => setShowListedNfts(!showListedNfts)}
+              >
+                Show Listed NFTs
+              </Button>
+            </div>
+          {showListedNfts && <Home setSelectedNft={selectedNft} setSelectedNft={setSelectedNft} imgs={imgs} setImgs={setImgs} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={readContracts.FooFa.address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />}
+            
             <div style = {{padding: 8}}>
               <Input
                 style = {{textAlign: "center"}}
@@ -464,7 +474,7 @@ function App(props) {
                   // await tx(writeContracts.FooFa.buyTokens(1,BuyNoOfTokens,contractaddress, tokenId))
                 }}
                 >
-
+                  Buy Tokens
                 </Button>
               </div>
             </div>
