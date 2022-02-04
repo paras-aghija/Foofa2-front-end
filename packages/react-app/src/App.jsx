@@ -181,6 +181,9 @@ function App(props) {
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
   */
 
+  const counter= useContractReader(readContracts,"FooFa","counter");
+  
+
   //
   // 🧫 DEBUG 👨🏻‍🔬
   //
@@ -438,7 +441,12 @@ function App(props) {
             <div style = {{padding:8}}>
               <Button
               onClick={async() =>{
-                await tx(writeContracts.FooFa.NFTbuy(selectedNft.contract_address,selectedNft.token_id,BuyNoOfNFTs,{value: Listingprice * BuyNoOfNFTs}));
+                
+                const listingmapping= await tx(readContracts.FooFa.ListingDetails(selectedNft.contract_address,selectedNft.token_id));
+                const listingprices= await listingmapping[0];
+                const listingprice= parseInt(listingprices);
+                await tx(writeContracts.FooFa.NFTbuy(selectedNft.contract_address,selectedNft.token_id,BuyNoOfNFTs,{value: listingprice * BuyNoOfNFTs}));
+                
               }}
               
               >
@@ -471,7 +479,8 @@ function App(props) {
               <div style = {{padding: 8 }}>
                 <Button
                 onClick={async() =>{
-                  // await tx(writeContracts.FooFa.buyTokens(1,BuyNoOfTokens,contractaddress, tokenId))
+                  
+                  await tx(writeContracts.FooFa.buyTokens(counter,BuyNoOfTokens,selectedNft.contract_address, selectedNft.token_id))
                 }}
                 >
                   Buy Tokens
