@@ -35,6 +35,8 @@ import { useStaticJsonRPC } from "./hooks";
 import { local } from "web3modal";
 import abiERC from "./ERC1155abi.json"; 
 
+import { BigNumber } from "@ethersproject/bignumber";
+
 const { ethers } = require("ethers");
 /*
     Welcome to 🏗 scaffold-eth !
@@ -444,8 +446,10 @@ function App(props) {
                 
                 const listingmapping= await tx(readContracts.FooFa.ListingDetails(selectedNft.contract_address,selectedNft.token_id));
                 const listingprices= await listingmapping[0];
-                const listingprice= parseInt(listingprices);
-                await tx(writeContracts.FooFa.NFTbuy(selectedNft.contract_address,selectedNft.token_id,BuyNoOfNFTs,{value: listingprice * BuyNoOfNFTs}));
+                const listingprice= (BigNumber.from(listingprices)*BuyNoOfNFTs).toString();
+                console.log(listingprice)
+                console.log(typeof listingprice)
+                await tx(writeContracts.FooFa.NFTbuy(selectedNft.contract_address,selectedNft.token_id,BuyNoOfNFTs,{value: listingprice}));
                 
               }}
               // new commit
