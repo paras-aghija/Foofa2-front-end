@@ -56,7 +56,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const initialNetwork = NETWORKS.mumbai; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const initialNetwork = NETWORKS.kovan; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -82,8 +82,10 @@ function App(props) {
   const [selectedNft, setSelectedNft] = useState(null);
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
+  const [showListedNfts, setShowListedNfts] = useState(false)
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
   const location = useLocation();
+
 
   const targetNetwork = NETWORKS[selectedNetwork];
 
@@ -270,8 +272,6 @@ function App(props) {
   
   
   
-
-  
   return (
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
@@ -414,6 +414,14 @@ function App(props) {
         </Route>
         <Route path="/hints">
           <Hints address = {address} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />
+          <div style = {{padding:8}}>
+              <Button
+              onClick={() => setShowListedNfts(!showListedNfts)}
+              >
+                Show Listed NFTs
+              </Button>
+            </div>
+          {showListedNfts && <Home setSelectedNft={selectedNft} setSelectedNft={setSelectedNft} imgs={imgs} setImgs={setImgs} yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={readContracts.FooFa.address}  writeContracts= {writeContracts} userSigner= {userSigner} localProvider={localProvider} />}
             
             <Card title = "Buy NFT">
             <div style = {{padding: 8}}>
