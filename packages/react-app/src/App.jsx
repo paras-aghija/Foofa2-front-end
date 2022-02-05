@@ -88,6 +88,10 @@ function App(props) {
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
   const location = useLocation();
 
+  const [ctr, setCtr] = useState("");
+  const [cadd, setCadd] = useState("");
+  const [tid, setTid] = useState("");
+
   const targetNetwork = NETWORKS[selectedNetwork];
 
   // 🔭 block explorer URL
@@ -540,13 +544,18 @@ function App(props) {
                     const discount = BigNumber.from(listingmappings[3]);
                     const noOfTokens = BigNumber.from(listingmappings[5]);
 
-                    const final = (((price * amount - discount) / noOfTokens)* BuyNoOfTokens).toString();
-                    
+                    const final = (((price * amount - discount) / noOfTokens) * BuyNoOfTokens).toString();
 
                     console.log(counterval);
                     console.log(final);
                     await tx(
-                      writeContracts.FooFa.buyTokens(counterval,BuyNoOfTokens,selectedNft.contract_address,selectedNft.token_id,{value: final})
+                      writeContracts.FooFa.buyTokens(
+                        counterval,
+                        BuyNoOfTokens,
+                        selectedNft.contract_address,
+                        selectedNft.token_id,
+                        { value: final },
+                      ),
                     );
                   }}
 
@@ -613,9 +622,8 @@ function App(props) {
                     readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
                   );
                   const counterval = BigNumber.from(listingmappings[2]).toString();
-                  
-                  await tx(
-                    writeContracts.FooFa.sellTokens(counterval,SellNoOfTokens));
+
+                  await tx(writeContracts.FooFa.sellTokens(counterval, SellNoOfTokens));
                 }}
                 // new commit
               >
@@ -625,12 +633,45 @@ function App(props) {
           </Card>
         </Route>
         <Route path="/subgraph">
-          <Subgraph
-            subgraphUri={props.subgraphUri}
-            tx={tx}
-            writeContracts={writeContracts}
-            mainnetProvider={mainnetProvider}
-          />
+          <div style={{ padding: 8 }}>
+            <Input
+              style={{ textAlign: "center" }}
+              placeholder={"Counter"}
+              value={ctr}
+              onChange={e => {
+                setCtr(e.target.value);
+              }}
+            />
+          </div>
+          <div style={{ padding: 8 }}>
+            <Input
+              style={{ textAlign: "center" }}
+              placeholder={"Contract Address"}
+              value={cadd}
+              onChange={e => {
+                setCadd(e.target.value);
+              }}
+            />
+          </div>
+          <div style={{ padding: 8 }}>
+            <Input
+              style={{ textAlign: "center" }}
+              placeholder={"Token Id"}
+              value={tid}
+              onChange={e => {
+                setTid(e.target.value);
+              }}
+            />
+          </div>
+          <div style={{ padding: 8 }}>
+            <Button
+              onClick={async () => {
+                await tx(writeContracts.FooFa.withdraw(ctr, cadd, tid));
+              }}
+            >
+              Withdraw
+            </Button>
+          </div>
         </Route>
       </Switch>
 
