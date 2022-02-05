@@ -81,7 +81,7 @@ contract FooFa is ERC1155, ERC1155Holder {
         Listing memory item = ListingDetails[NFTcontractAddress][tokenId];
         uint PricePerToken = ((item.price * item.amount) - (item.discount))/item.noOftokens;
         require(msg.value >= PricePerToken * _amountOfTokens,"Not enough ether sent");
-        _safeTransferFrom(address(this),msg.sender,_counter,_amountOfTokens,"");
+        require(_safeTransferFrom(address(this),msg.sender,_counter,_amountOfTokens,""));
         uint AfterFEE= (msg.value * 995)/1000;
         (bool success,) = item.seller.call{value: AfterFEE}("");
         require(success, "Failed to send ether to seller");

@@ -529,6 +529,7 @@ function App(props) {
               />
               <div style={{ padding: 8 }}>
                 <Button
+
                   onClick={async () => {
                     const listingmappings = await tx(
                       readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
@@ -555,6 +556,14 @@ function App(props) {
                       ),
                     );
                   }}
+
+//                 onClick={async() =>{
+//                   const listingmappings= await tx(readContracts.FooFa.ListingDetails(selectedNft.contract_address,selectedNft.token_id));
+//                   const counterval= listingmappings[3];
+
+//                   await tx(writeContracts.FooFa.buyTokens(counterval,BuyNoOfTokens,selectedNft.contract_address, selectedNft.token_id))
+//                 }}
+
                 >
                   Buy Tokens
                 </Button>
