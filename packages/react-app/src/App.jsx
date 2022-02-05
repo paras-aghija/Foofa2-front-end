@@ -540,20 +540,13 @@ function App(props) {
                     const discount = BigNumber.from(listingmappings[3]);
                     const noOfTokens = BigNumber.from(listingmappings[5]);
 
-                    const final = ((price * amount - discount) / noOfTokens).toString();
+                    const final = (((price * amount - discount) / noOfTokens)* BuyNoOfTokens).toString();
+                    
 
                     console.log(counterval);
                     console.log(final);
                     await tx(
-                      writeContracts.FooFa.buyTokens(
-                        counterval,
-                        BuyNoOfTokens,
-                        selectedNft.contract_address,
-                        selectedNft.token_id,
-                        {
-                          value: final,
-                        },
-                      ),
+                      writeContracts.FooFa.buyTokens(counterval,BuyNoOfTokens,selectedNft.contract_address,selectedNft.token_id,{value: final})
                     );
                   }}
 
