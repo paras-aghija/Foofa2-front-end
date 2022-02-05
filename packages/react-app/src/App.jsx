@@ -272,6 +272,7 @@ function App(props) {
 
   /* const for buying tokens */
   const [BuyNoOfTokens, setBuyNoOfTokens] = useState();
+  const [SellNoOfTokens, setSellNoOfTokens] = useState();
 
   return (
     <div className="App">
@@ -605,28 +606,23 @@ function App(props) {
             <div style={{ padding: 8 }}>
               <Input
                 style={{ textAlign: "center" }}
-                placeholder={"amount of NFT to buy"}
-                value={BuyNoOfNFTs}
+                placeholder={"tokens to sell"}
+                value={SellNoOfTokens}
                 onChange={e => {
-                  setBuyNoOfNFTs(e.target.value);
+                  setSellNoOfTokens(e.target.value);
                 }}
               />
             </div>
             <div style={{ padding: 8 }}>
               <Button
                 onClick={async () => {
-                  const listingmapping = await tx(
+                  const listingmappings = await tx(
                     readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
                   );
-                  const listingprices = await listingmapping[0];
-                  const listingprice = (BigNumber.from(listingprices) * BuyNoOfNFTs).toString();
-                  console.log(listingprice);
-                  console.log(typeof listingprice);
+                  const counterval = BigNumber.from(listingmappings[2]).toString();
+                  
                   await tx(
-                    writeContracts.FooFa.NFTbuy(selectedNft.contract_address, selectedNft.token_id, BuyNoOfNFTs, {
-                      value: listingprice,
-                    }),
-                  );
+                    writeContracts.FooFa.sellTokens(counterval,SellNoOfTokens));
                 }}
                 // new commit
               >
