@@ -91,8 +91,8 @@ function Home({
 
   return (
     <div className="wrapper">
-      {imgs.map(img => (
-        <NftCard selectedNft={selectedNft} key={img.token_id} setSelectedNft={setSelectedNft} img={img} />
+      {imgs.map((img, idx) => (
+        <NftCard selectedNft={selectedNft} key={idx} setSelectedNft={setSelectedNft} img={img} />
       ))}
     </div>
     // <div>

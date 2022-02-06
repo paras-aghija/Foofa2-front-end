@@ -498,7 +498,7 @@ function App(props) {
             <div className="buy-wrapper">
               {showListedNfts && (
                 <Home
-                  setSelectedNft={selectedNft}
+                  selectedNft={selectedNft}
                   setSelectedNft={setSelectedNft}
                   imgs={imgs}
                   setImgs={setImgs}
@@ -571,7 +571,7 @@ function App(props) {
             <div className="buy-wrapper">
               {showListedNfts && (
                 <Home2
-                  setSelectedNft={selectedNft}
+                  selectedNft={selectedNft}
                   setSelectedNft={setSelectedNft}
                   imgs={imgs}
                   setImgs={setImgs}
