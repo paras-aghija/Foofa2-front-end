@@ -137,6 +137,10 @@ function App(props) {
     getAddress();
   }, [userSigner]);
 
+  useEffect(() => {
+    setShowListedNfts(false);
+  }, [location]);
+
   // You can warn the user if you would like them to be on a specific network
   const localChainId = localProvider && localProvider._network && localProvider._network.chainId;
   const selectedChainId =
@@ -439,7 +443,7 @@ function App(props) {
 
             <div className="buy-wrapper">
               {showListedNfts && (
-                <Home
+                <Home2
                   selectedNft={selectedNft}
                   setSelectedNft={setSelectedNft}
                   imgs={imgs}
@@ -451,6 +455,7 @@ function App(props) {
                   userSigner={userSigner}
                   localProvider={localProvider}
                   tx={tx}
+                  address2={null}
                 />
               )}
               <div className="flex-wrapper">
@@ -497,7 +502,7 @@ function App(props) {
             </div>
             <div className="buy-wrapper">
               {showListedNfts && (
-                <Home
+                <Home2
                   selectedNft={selectedNft}
                   setSelectedNft={setSelectedNft}
                   imgs={imgs}
@@ -508,6 +513,8 @@ function App(props) {
                   writeContracts={writeContracts}
                   userSigner={userSigner}
                   localProvider={localProvider}
+                  tx={tx}
+                  address2={null}
                 />
               )}
               <div className="flex-wrapper">

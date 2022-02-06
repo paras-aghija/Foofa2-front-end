@@ -69,7 +69,7 @@ function Home2({
         const seller = listingmapping[1];
         console.log(seller);
         console.log(address2);
-        if (seller === address2) {
+        if (address2 === null || seller === address2) {
           fimages.push({ ...nft, price: price });
         }
       }
