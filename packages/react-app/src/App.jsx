@@ -431,10 +431,7 @@ function App(props) {
               localProvider={localProvider}
             />
 
-            <Card title="Buy NFT">
-              <div style={{ padding: 8 }}>
-                <Button onClick={() => setShowListedNfts(!showListedNfts)}>Show Listed NFTs</Button>
-              </div>
+            <div className="buy-wrapper">
               {showListedNfts && (
                 <Home
                   selectedNft={selectedNft}
@@ -449,39 +446,43 @@ function App(props) {
                   localProvider={localProvider}
                 />
               )}
-
-              <div style={{ padding: 8 }}>
-                <Input
-                  style={{ textAlign: "center" }}
-                  placeholder={"amount of NFT to buy"}
-                  value={BuyNoOfNFTs}
-                  onChange={e => {
-                    setBuyNoOfNFTs(e.target.value);
-                  }}
-                />
+              <div className="flex-wrapper">
+                <div style={{ padding: 8 }}>
+                  <Button onClick={() => setShowListedNfts(!showListedNfts)}>Show Listed NFTs</Button>
+                </div>
+                <div style={{ padding: 8, width: "50%" }}>
+                  <Input
+                    style={{ textAlign: "center" }}
+                    placeholder={"amount of NFT to buy"}
+                    value={BuyNoOfNFTs}
+                    onChange={e => {
+                      setBuyNoOfNFTs(e.target.value);
+                    }}
+                  />
+                </div>
+                <div style={{ padding: 8 }}>
+                  <Button
+                    onClick={async () => {
+                      const listingmapping = await tx(
+                        readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
+                      );
+                      const listingprices = await listingmapping[0];
+                      const listingprice = (BigNumber.from(listingprices) * BuyNoOfNFTs).toString();
+                      console.log(listingprice);
+                      console.log(typeof listingprice);
+                      await tx(
+                        writeContracts.FooFa.NFTbuy(selectedNft.contract_address, selectedNft.token_id, BuyNoOfNFTs, {
+                          value: listingprice,
+                        }),
+                      );
+                    }}
+                    // new commit
+                  >
+                    Buy NFT!
+                  </Button>
+                </div>
               </div>
-              <div style={{ padding: 8 }}>
-                <Button
-                  onClick={async () => {
-                    const listingmapping = await tx(
-                      readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
-                    );
-                    const listingprices = await listingmapping[0];
-                    const listingprice = (BigNumber.from(listingprices) * BuyNoOfNFTs).toString();
-                    console.log(listingprice);
-                    console.log(typeof listingprice);
-                    await tx(
-                      writeContracts.FooFa.NFTbuy(selectedNft.contract_address, selectedNft.token_id, BuyNoOfNFTs, {
-                        value: listingprice,
-                      }),
-                    );
-                  }}
-                  // new commit
-                >
-                  Buy NFT!
-                </Button>
-              </div>
-            </Card>
+            </div>
           </Route>
           <Route path="/exampleui">
             <Card title="Buy Tokens">
