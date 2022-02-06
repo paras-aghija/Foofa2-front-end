@@ -8,6 +8,8 @@ import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProvider
 import LocaleProvider from "antd/lib/locale-provider";
 import "./styles.css";
 import NftCard from "../components/NftCard";
+import { BigNumber } from "@ethersproject/bignumber";
+
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
  * @param {*} yourLocalBalance balance on current network
@@ -61,11 +63,14 @@ function Home2({
       let fimages = [];
       for (const nft of images) {
         const listingmapping = await tx(readContracts.FooFa.ListingDetails(nft.contract_address, nft.token_id));
+        const price = (BigNumber.from(listingmapping.price) / Math.pow(10, 18)).toString();
+        console.log(price);
+
         const seller = listingmapping[1];
         console.log(seller);
         console.log(address2);
         if (seller === address2) {
-          fimages.push(nft);
+          fimages.push({ ...nft, price: price });
         }
       }
       //   images = images.filter(async img => {

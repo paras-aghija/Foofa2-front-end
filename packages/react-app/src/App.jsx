@@ -294,6 +294,9 @@ function App(props) {
         <Switch>
           <Route exact path="/">
             {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
+            <div className="heading">
+              <h1>List NFT</h1>
+            </div>
             <Home
               selectedNft={selectedNft}
               setSelectedNft={setSelectedNft}
@@ -421,7 +424,10 @@ function App(props) {
             />
           </Route>
           <Route path="/hints">
-            <Hints
+            <div className="heading">
+              <h1>Buy NFT</h1>
+            </div>
+            {/* <Hints
               address={address}
               yourLocalBalance={yourLocalBalance}
               readContracts={readContracts}
@@ -429,7 +435,7 @@ function App(props) {
               writeContracts={writeContracts}
               userSigner={userSigner}
               localProvider={localProvider}
-            />
+            /> */}
 
             <div className="buy-wrapper">
               {showListedNfts && (
@@ -444,6 +450,7 @@ function App(props) {
                   writeContracts={writeContracts}
                   userSigner={userSigner}
                   localProvider={localProvider}
+                  tx={tx}
                 />
               )}
               <div className="flex-wrapper">
@@ -485,6 +492,9 @@ function App(props) {
             </div>
           </Route>
           <Route path="/exampleui">
+            <div className="heading">
+              <h1>Buy Tokens</h1>
+            </div>
             <div className="buy-wrapper">
               {showListedNfts && (
                 <Home
@@ -555,6 +565,9 @@ function App(props) {
             </div>
           </Route>
           <Route path="/mainnetdai">
+            <div className="heading">
+              <h1>Sell Tokens</h1>
+            </div>
             <div className="buy-wrapper">
               {showListedNfts && (
                 <Home2
@@ -616,6 +629,9 @@ function App(props) {
             </div>
           </Route>
           <Route path="/subgraph">
+            <div className="heading">
+              <h1>Burn Tokens</h1>
+            </div>
             <div className="card-wrapper">
               <div style={{ padding: 8 }}>
                 <Input

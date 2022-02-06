@@ -12,15 +12,14 @@ export default function Header() {
 
   return (
     <div className="header-wrapper">
-      <h1 className="heading">FooFa</h1>
+      <div className="name">
+        <h1 className="heading">FooFa</h1>
+      </div>
 
       <div className="nav-menu">
         <ul className="nav-items">
           <li className={location.pathname === "/" ? "active nav-item" : "nav-item"}>
             <Link to="/">List NFT</Link>
-          </li>
-          <li className={location.pathname === "/debug" ? "active nav-item" : "nav-item"}>
-            <Link to="debug">Debug</Link>
           </li>
           <li className={location.pathname === "/hints" ? "active nav-item" : "nav-item"}>
             <Link to="/hints">Buy NFT</Link>
@@ -33,6 +32,9 @@ export default function Header() {
           </li>
           <li className={location.pathname === "/subgraph" ? "active nav-item" : "nav-item"}>
             <Link to="/subgraph">Burn Tokens</Link>
+          </li>
+          <li className={location.pathname === "/debug" ? "active nav-item" : "nav-item"}>
+            <Link to="debug">Debug</Link>
           </li>
         </ul>
       </div>

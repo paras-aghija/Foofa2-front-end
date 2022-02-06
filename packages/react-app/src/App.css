@@ -80,3 +80,25 @@ html {
 .flex-wrapper > input {
   width: 50%;
 }
+
+.name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading > h1 {
+  background-color: black;
+  font-weight: 600;
+  padding: 10px 50px;
+  border-radius: 20px;
+  /* border-top-left-radius: 20px; */
+  /* border-top-right-radius: 20px; */
+  margin-bottom: 0;
+}

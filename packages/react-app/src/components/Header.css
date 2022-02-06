@@ -53,3 +53,8 @@
 .active > a {
   color: black;
 }
+
+.logo {
+  height: 50px;
+  width: 50px;
+}

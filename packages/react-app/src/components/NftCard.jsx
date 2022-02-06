@@ -16,6 +16,7 @@ const NftCard = ({ img, setSelectedNft, selectedNft }) => {
         <h2 className="name">{img.name}</h2>
         <div>Token ID: {img.token_id}</div>
         <div>Token Balance: {img.token_balance}</div>
+        {img?.price && <div>{img.price} MATIC</div>}
       </div>
     </div>
   );
