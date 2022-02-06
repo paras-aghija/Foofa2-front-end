@@ -8,6 +8,7 @@ import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProvider
 import LocaleProvider from "antd/lib/locale-provider";
 import NftCard from "../components/NftCard";
 import "./styles.css";
+import { Button } from "antd";
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
  * @param {*} yourLocalBalance balance on current network
@@ -24,6 +25,7 @@ function Home({
   setImgs,
   setSelectedNft,
   selectedNft,
+  userSigner,
 }) {
   // you can also use hooks locally in your component of choice
   // in this case, let's keep track of 'purpose' variable from our contract

@@ -1,5 +1,5 @@
 .wrapper {
-  margin: 50px;
+  margin: 20px 50px;
   padding: 50px 100px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
