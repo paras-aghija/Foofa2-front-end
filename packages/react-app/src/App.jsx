@@ -555,21 +555,7 @@ function App(props) {
             </div>
           </Route>
           <Route path="/mainnetdai">
-            <Card title="Sell Token">
-              <div style={{ padding: 8 }}>
-                <Button
-                  onClick={async () => {
-                    // const listingmapping = await tx(
-                    //   readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
-                    // );
-                    // const seller = listingmapping[1];
-                    // console.log(seller);
-                    setShowListedNfts(!showListedNfts);
-                  }}
-                >
-                  Show Listed NFTs
-                </Button>
-              </div>
+            <div className="buy-wrapper">
               {showListedNfts && (
                 <Home2
                   setSelectedNft={selectedNft}
@@ -586,33 +572,48 @@ function App(props) {
                   tx={tx}
                 />
               )}
+              <div className="flex-wrapper">
+                <div style={{ padding: 8 }}>
+                  <Button
+                    onClick={async () => {
+                      // const listingmapping = await tx(
+                      //   readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
+                      // );
+                      // const seller = listingmapping[1];
+                      // console.log(seller);
+                      setShowListedNfts(!showListedNfts);
+                    }}
+                  >
+                    Show Listed NFTs
+                  </Button>
+                </div>
+                <div style={{ padding: 8, width: "50%" }}>
+                  <Input
+                    style={{ textAlign: "center" }}
+                    placeholder={"tokens to sell"}
+                    value={SellNoOfTokens}
+                    onChange={e => {
+                      setSellNoOfTokens(e.target.value);
+                    }}
+                  />
+                </div>
+                <div style={{ padding: 8 }}>
+                  <Button
+                    onClick={async () => {
+                      const listingmappings = await tx(
+                        readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
+                      );
+                      const counterval = BigNumber.from(listingmappings[2]).toString();
 
-              <div style={{ padding: 8 }}>
-                <Input
-                  style={{ textAlign: "center" }}
-                  placeholder={"tokens to sell"}
-                  value={SellNoOfTokens}
-                  onChange={e => {
-                    setSellNoOfTokens(e.target.value);
-                  }}
-                />
+                      await tx(writeContracts.FooFa.sellTokens(counterval, SellNoOfTokens));
+                    }}
+                    // new commit
+                  >
+                    Sell Token
+                  </Button>
+                </div>
               </div>
-              <div style={{ padding: 8 }}>
-                <Button
-                  onClick={async () => {
-                    const listingmappings = await tx(
-                      readContracts.FooFa.ListingDetails(selectedNft.contract_address, selectedNft.token_id),
-                    );
-                    const counterval = BigNumber.from(listingmappings[2]).toString();
-
-                    await tx(writeContracts.FooFa.sellTokens(counterval, SellNoOfTokens));
-                  }}
-                  // new commit
-                >
-                  Sell Token
-                </Button>
-              </div>
-            </Card>
+            </div>
           </Route>
           <Route path="/subgraph">
             <div style={{ padding: 8 }}>

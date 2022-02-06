@@ -6,7 +6,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
 import LocaleProvider from "antd/lib/locale-provider";
-
+import "./styles.css";
+import NftCard from "../components/NftCard";
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
  * @param {*} yourLocalBalance balance on current network
@@ -83,12 +84,9 @@ function Home2({
   }, [address, selectedNft]);
 
   return (
-    <div>
+    <div className="wrapper">
       {imgs.map(img => (
-        <div key={img.token_id} onClick={() => setSelectedNft(img)}>
-          <img src={img.image_url} alt={img.name} srcset="" />
-          <span>{img.name}</span>
-        </div>
+        <NftCard selectedNft={selectedNft} key={img.token_id} setSelectedNft={setSelectedNft} img={img} />
       ))}
     </div>
   );
