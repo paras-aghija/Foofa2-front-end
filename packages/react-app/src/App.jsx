@@ -616,44 +616,47 @@ function App(props) {
             </div>
           </Route>
           <Route path="/subgraph">
-            <div style={{ padding: 8 }}>
-              <Input
-                style={{ textAlign: "center" }}
-                placeholder={"Counter"}
-                value={ctr}
-                onChange={e => {
-                  setCtr(e.target.value);
-                }}
-              />
-            </div>
-            <div style={{ padding: 8 }}>
-              <Input
-                style={{ textAlign: "center" }}
-                placeholder={"Contract Address"}
-                value={cadd}
-                onChange={e => {
-                  setCadd(e.target.value);
-                }}
-              />
-            </div>
-            <div style={{ padding: 8 }}>
-              <Input
-                style={{ textAlign: "center" }}
-                placeholder={"Token Id"}
-                value={tid}
-                onChange={e => {
-                  setTid(e.target.value);
-                }}
-              />
-            </div>
-            <div style={{ padding: 8 }}>
-              <Button
-                onClick={async () => {
-                  await tx(writeContracts.FooFa.withdraw(ctr, cadd, tid));
-                }}
-              >
-                Withdraw
-              </Button>
+            <div className="card-wrapper">
+              <div style={{ padding: 8 }}>
+                <Input
+                  style={{ textAlign: "center" }}
+                  placeholder={"Counter"}
+                  value={ctr}
+                  onChange={e => {
+                    setCtr(e.target.value);
+                  }}
+                />
+              </div>
+              <div style={{ padding: 8 }}>
+                <Input
+                  style={{ textAlign: "center" }}
+                  placeholder={"Contract Address"}
+                  value={cadd}
+                  onChange={e => {
+                    setCadd(e.target.value);
+                  }}
+                />
+              </div>
+              <div style={{ padding: 8 }}>
+                <Input
+                  style={{ textAlign: "center" }}
+                  placeholder={"Token Id"}
+                  value={tid}
+                  onChange={e => {
+                    setTid(e.target.value);
+                  }}
+                />
+              </div>
+              <div style={{ padding: 8 }}>
+                <Button
+                  style={{ width: "100%" }}
+                  onClick={async () => {
+                    await tx(writeContracts.FooFa.withdraw(ctr, cadd, tid));
+                  }}
+                >
+                  Withdraw
+                </Button>
+              </div>
             </div>
           </Route>
         </Switch>
