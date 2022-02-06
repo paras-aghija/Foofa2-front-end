@@ -4,6 +4,7 @@ import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
 import Balance from "./Balance";
 import Wallet from "./Wallet";
+import "./Header.css";
 
 /*
   ~ What it does? ~
@@ -133,7 +134,7 @@ export default function Account({
   );
 
   return (
-    <div>
+    <div className="account">
       {display}
       {modalButtons}
     </div>
