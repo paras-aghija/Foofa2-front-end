@@ -41,3 +41,15 @@
   align-items: center;
   margin-bottom: 0;
 }
+
+.active {
+  /* border-bottom: 2px solid white;
+   */
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.active > a {
+  color: black;
+}

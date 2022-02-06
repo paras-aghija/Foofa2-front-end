@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function Header() {
   const location = useLocation();
+  console.log(location);
 
   return (
     <div className="header-wrapper">
@@ -15,22 +16,22 @@ export default function Header() {
 
       <div className="nav-menu">
         <ul className="nav-items">
-          <li className="nav-item">
+          <li className={location.pathname === "/" ? "active nav-item" : "nav-item"}>
             <Link to="/">List NFT</Link>
           </li>
-          <li className="nav-item">
+          <li className={location.pathname === "/debug" ? "active nav-item" : "nav-item"}>
             <Link to="debug">Debug</Link>
           </li>
-          <li className="nav-item">
+          <li className={location.pathname === "/hints" ? "active nav-item" : "nav-item"}>
             <Link to="/hints">Buy NFT</Link>
           </li>
-          <li className="nav-item">
+          <li className={location.pathname === "/exampleui" ? "active nav-item" : "nav-item"}>
             <Link to="/exampleui">Buy Tokens</Link>
           </li>
-          <li className="nav-item">
+          <li className={location.pathname === "/mainnetdai" ? "active nav-item" : "nav-item"}>
             <Link to="/mainnetdai">Sell Tokens</Link>
           </li>
-          <li className="nav-item">
+          <li className={location.pathname === "/subgraph" ? "active nav-item" : "nav-item"}>
             <Link to="/subgraph">Burn Tokens</Link>
           </li>
         </ul>
