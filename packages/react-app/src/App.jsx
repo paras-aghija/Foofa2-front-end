@@ -485,10 +485,7 @@ function App(props) {
             </div>
           </Route>
           <Route path="/exampleui">
-            <Card title="Buy Tokens">
-              <div style={{ padding: 8 }}>
-                <Button onClick={() => setShowListedNfts(!showListedNfts)}>Show Listed NFTs</Button>
-              </div>
+            <div className="buy-wrapper">
               {showListedNfts && (
                 <Home
                   setSelectedNft={selectedNft}
@@ -503,16 +500,20 @@ function App(props) {
                   localProvider={localProvider}
                 />
               )}
-
-              <div style={{ padding: 8 }}>
-                <Input
-                  style={{ textAlign: "center" }}
-                  placeholder={"No of tokens you want to buy"}
-                  value={BuyNoOfTokens}
-                  onChange={e => {
-                    setBuyNoOfTokens(e.target.value);
-                  }}
-                />
+              <div className="flex-wrapper">
+                <div style={{ padding: 8 }}>
+                  <Button onClick={() => setShowListedNfts(!showListedNfts)}>Show Listed NFTs</Button>
+                </div>
+                <div style={{ padding: 8, width: "50%" }}>
+                  <Input
+                    style={{ textAlign: "center" }}
+                    placeholder={"No of tokens you want to buy"}
+                    value={BuyNoOfTokens}
+                    onChange={e => {
+                      setBuyNoOfTokens(e.target.value);
+                    }}
+                  />
+                </div>
                 <div style={{ padding: 8 }}>
                   <Button
                     onClick={async () => {
@@ -551,7 +552,7 @@ function App(props) {
                   </Button>
                 </div>
               </div>
-            </Card>
+            </div>
           </Route>
           <Route path="/mainnetdai">
             <Card title="Sell Token">
