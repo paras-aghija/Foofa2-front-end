@@ -37,7 +37,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const collectible = await ethers.getContract("YourCollectible", deployer);
 
   await collectible.transferOwnership(
-    "0x276F1C972957171A9F7F65d85d9E0DCE7d0b6649"
+    "0x1b37B1EC6B7faaCbB9AddCCA4043824F36Fb88D8"
   );
 
   // await YourContract.transferOwnership("0x1b37B1EC6B7faaCbB9AddCCA4043824F36Fb88D8");

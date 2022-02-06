@@ -31,7 +31,7 @@ function Home2({
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
 
   useEffect(() => {
-    const url = `https://api.covalenthq.com/v1/42/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=false&key=ckey_1d7288b1bd29481ba9c8415d038`;
+    const url = `https://api.covalenthq.com/v1/80001/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=false&key=ckey_1d7288b1bd29481ba9c8415d038`;
     const fun = async () => {
       let data = [];
       let images = [];

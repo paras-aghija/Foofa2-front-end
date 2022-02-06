@@ -26,7 +26,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 // Select the network you want to deploy to here:
 //
-const defaultNetwork = "kovan";
+const defaultNetwork = "mumbai";
 
 const mainnetGwei = 21;
 
@@ -174,9 +174,9 @@ module.exports = {
       },
     },
     mumbai: {
-      url: "https://rpc-mainnet.maticvigil.com/",
+      url: "https://speedy-nodes-nyc.moralis.io/4b3ed70f0f6669d1a447861b/polygon/mumbai",
       // url: "https://speedy-nodes-nyc.moralis.io/4b3ed70f0f6669d1a447861b/polygon/mumbai",
-      gasPrice: 10000000000,
+      gasPrice: 50000000000,
       accounts: {
         mnemonic: mnemonic(),
       },
