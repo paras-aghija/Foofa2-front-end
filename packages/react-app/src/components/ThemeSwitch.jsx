@@ -8,7 +8,7 @@ export default function ThemeSwitcher() {
   const { switcher, currentTheme, themes } = useThemeSwitcher();
 
   useEffect(() => {
-    window.localStorage.setItem("theme", currentTheme);
+    window.localStorage.setItem("theme", "dark");
   }, [currentTheme]);
 
   const toggleTheme = isChecked => {
