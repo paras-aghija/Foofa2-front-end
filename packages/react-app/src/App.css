@@ -1,6 +1,7 @@
 /* .App {
   text-align: center;
   padding-left: calc(100vw - 100%);
+  
 } */
 
 *,
@@ -9,4 +10,14 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.content {
+  margin-top: 100px;
+}
+
+.approve {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
